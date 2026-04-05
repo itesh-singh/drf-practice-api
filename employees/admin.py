@@ -3,4 +3,4 @@ from .models import Employee
 
 
 
-admin.site.register(Employee)
+admin.site.register(Employee)   
