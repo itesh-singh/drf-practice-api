@@ -12,6 +12,8 @@ from employees.models import Employee
 from django.http import Http404
 from rest_framework import mixins, generics, viewsets
 from .pagination import CustomPagination
+from employees.filters import EmployeeFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 # Create your views here.
@@ -196,11 +198,16 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     pagination_class = CustomPagination
+    filterset_class = EmployeeFilter
 
 
 class BlogsView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['^title', 'content']
+    ordering_fields = ['id', 'title']
+
 
 
 class CommentsView(generics.ListCreateAPIView):
