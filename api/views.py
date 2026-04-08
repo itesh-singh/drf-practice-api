@@ -143,47 +143,52 @@ class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
 """
 
 
-class EmployeeViewSet(viewsets.ViewSet):
-    def list(self, request):
-        employees = Employee.objects.all()
-        serializer = EmployeeSerializer(employees, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK) 
+# class EmployeeViewSet(viewsets.ViewSet):
+#     def list(self, request):
+#         employees = Employee.objects.all()
+#         serializer = EmployeeSerializer(employees, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK) 
     
-    def create(self, request):
-        serializer = EmployeeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def create(self, request):
+#         serializer = EmployeeSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         print(serializer.errors)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def retrieve(self, request, pk=None):
-        try:
-            employee = Employee.objects.get(pk=pk)
-        except Employee.DoesNotExist:
-            return Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
+#     def retrieve(self, request, pk=None):
+#         try:
+#             employee = Employee.objects.get(pk=pk)
+#         except Employee.DoesNotExist:
+#             return Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = EmployeeSerializer(employee)
-        return Response(serializer.data, status=status.HTTP_200_OK) 
+#         serializer = EmployeeSerializer(employee)
+#         return Response(serializer.data, status=status.HTTP_200_OK) 
     
-    def update(self, request, pk=None):
-        try:
-            employee = Employee.objects.get(pk=pk)
-        except Employee.DoesNotExist:
-            return Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
+#     def update(self, request, pk=None):
+#         try:
+#             employee = Employee.objects.get(pk=pk)
+#         except Employee.DoesNotExist:
+#             return Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = EmployeeSerializer(employee, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         serializer = EmployeeSerializer(employee, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def destroy(self, request, pk=None):
-        try:
-            employee = Employee.objects.get(pk=pk)
-        except Employee.DoesNotExist:
-            return Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
+#     def destroy(self, request, pk=None):
+#         try:
+#             employee = Employee.objects.get(pk=pk)
+#         except Employee.DoesNotExist:
+#             return Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
         
-        employee.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+#         employee.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
