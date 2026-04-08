@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from employees.models import Employee
 from django.http import Http404
 from rest_framework import mixins, generics, viewsets
+from .pagination import CustomPagination
 
 
 # Create your views here.
@@ -194,6 +195,7 @@ class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    pagination_class = CustomPagination
 
 
 class BlogsView(generics.ListCreateAPIView):
