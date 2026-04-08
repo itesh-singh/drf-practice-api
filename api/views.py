@@ -1,5 +1,7 @@
 # from django.shortcuts import render
 # from django.http import JsonResponse
+from blogs.models import Blog, Comment
+from blogs.serializers import BlogSerializer, CommentSerializer
 from students.models import Student
 from .serializers import StudentSerializer, EmployeeSerializer
 from rest_framework.response import Response
@@ -192,3 +194,25 @@ class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+
+
+class BlogsView(generics.ListCreateAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
+
+class CommentsView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    lookup_field = 'pk'
+
+
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    lookup_field = 'pk'
